@@ -1,0 +1,9 @@
+anotacao*
+
+*.pdf  
+
+/leitor-instancias
+
+/instancias
+
+*.exe
