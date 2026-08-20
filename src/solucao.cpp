@@ -127,3 +127,63 @@ Solucao Construcao(){
 
     return s;
 }
+
+// ==== Funções de vinzinhaça ====
+
+bool bestImprovmentSwap(Solucao& s){
+    double melhorDelta = 0;
+    int melhor_i = -1, melhor_j = -1;
+
+    for(int i = 1; i < (int)s.caminho.size() - 1; i++){
+        int vi = s.caminho[i];
+        int vi_prox = s.caminho[i+1];
+        int vi_ant = s.caminho[i-1];
+
+        for(int j = i + 1; j < (int)s.caminho.size() - 1; j++){
+            int vj = s.caminho[j];
+            int vj_prox = s.caminho[j+1];
+            int vj_ant = s.caminho[j-1];
+
+            double novoDelta;
+
+            if (j == i + 1) {
+                // Fórmula para vértices adjacentes
+                novoDelta = (matrizDistancias[vi_ant][vj] + matrizDistancias[vi][vj_prox]) -
+                            (matrizDistancias[vi_ant][vi] + matrizDistancias[vj][vj_prox]);
+            } else {
+                // Fórmula para vértices separados
+                novoDelta = 
+                            // Estradas adicionadas
+                            +matrizDistancias[vi_ant][vj]
+                            +matrizDistancias[vi][vj_prox]
+                            +matrizDistancias[vj][vi_prox]
+                            +matrizDistancias[vj_ant][vi]
+                            // Estradas removidas
+                            -(matrizDistancias[vi_ant][vi]
+                            +matrizDistancias[vi][vi_prox]
+                            +matrizDistancias[vj_ant][vj]
+                            +matrizDistancias[vj][vj_prox]);
+            }
+            
+            if(novoDelta < melhorDelta){
+                melhorDelta = novoDelta;
+                melhor_i = i;
+                melhor_j = j;
+            }
+        }
+    }
+
+    // Se o vizinho for melhor que o atual trocamos com o que já temos
+    if(melhorDelta < 0){
+
+        std::cout << "Delta eh de: " << melhorDelta << std::endl;
+
+        std::swap(s.caminho[melhor_i], s.caminho[melhor_j]);
+        s.custo = s.custo + melhorDelta; // Soma com delta negativo, assim tendo o custo do melhor vizinho.
+        
+        // Retorna true se foi encontrado um vizinho melhor
+        return true;
+    }
+
+    return false; // Se não for encontrado nenhum vizinho melhor
+}

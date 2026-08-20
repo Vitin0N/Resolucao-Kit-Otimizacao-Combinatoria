@@ -17,7 +17,12 @@ int main(){
 
     imprimirSolucao(s);
 
-    std::cout << "Custo total foi de: " << s.custo << std::endl;
+    std::cout << "Custo total (original) foi de: " << s.custo << std::endl;
+    
+    while(bestImprovmentSwap(s)){
+        imprimirSolucao(s);
+        std::cout << "Custo total foi de: " << s.custo << std::endl;
+    }
 
     return 0;
 }

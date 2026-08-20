@@ -44,4 +44,10 @@ std::vector<insertionInfo> calcularInsercao(Solucao& solucao, std::vector<int> &
 // Função para construir uma solução inicial para o TSP, utilizando um algoritmo de construção.
 Solucao Construcao();
 
+// ===== Funções de vizinhança ======
+
+// Visa encontrar o melhor vizinho da solução (com menor custo)
+bool bestImprovmentSwap(Solucao& s);
+
+
 #endif // SOLUCAO_H
