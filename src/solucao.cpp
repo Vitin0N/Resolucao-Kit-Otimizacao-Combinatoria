@@ -341,3 +341,67 @@ void buscaLocal(Solucao& s){
         }
     }
 }
+
+// ===== Funções de Pertubação =====
+
+Solucao pertubacaoDoubleBridge(const Solucao& solucao){
+
+    Solucao s = solucao;
+
+    // Gerador de aleatoriedade
+    std::random_device rd;
+    std::mt19937 gen(rd());
+
+    int n = s.caminho.size()-1;
+
+    int tamMax = std::max(2, (n + 9) / 10);
+    std::uniform_int_distribution<int> distTam(2, tamMax);
+
+    int tam_i = distTam(gen);
+    int tam_j = distTam(gen);
+
+    // Previnindo que o segmento i não vá ao final da cidade
+    int max_i = n - tam_i - tam_j;
+    if(max_i < 1){
+        tam_i = 1;
+        tam_j = 1;
+        max_i = n-2;
+    }
+
+    // Decide o primeiro subconjunto de cidades
+    std::uniform_int_distribution<int> dist_i(1, max_i);
+    int i = dist_i(gen);
+    int k_i = i + tam_i -1;
+
+    // Decide segundo subconjunto de cidades
+    int max_j = n - tam_j;
+    std::uniform_int_distribution<int> dist_j(k_i + 1, max_j);
+    int j = dist_j(gen);
+    int k_j = j + tam_j - 1;
+
+    // Criando o caminho do novo
+    std::vector<int> novoCaminho;
+
+    // Insere a cidade antes do i
+    novoCaminho.insert(novoCaminho.end(), s.caminho.begin(), s.caminho.begin() + i);
+
+    // Insere o segundo segmento
+    novoCaminho.insert(novoCaminho.end(), s.caminho.begin() + j, s.caminho.begin() + k_j + 1);
+    
+    // Insere as cidades entre os segmentos
+    novoCaminho.insert(novoCaminho.end(), s.caminho.begin() + k_i + 1, s.caminho.begin() + j);
+    
+    // Insere o primeiro segmento 
+    novoCaminho.insert(novoCaminho.end(), s.caminho.begin() + i, s.caminho.begin() + k_i + 1);
+
+    // Insere o resto do caminho
+    novoCaminho.insert(novoCaminho.end(), s.caminho.begin() + k_j + 1, s.caminho.end());
+
+    // Define o novo caminho
+    s.caminho = novoCaminho;
+    
+    // Atualiza o custo
+    calcularValorObj(s);
+
+    return s;
+}

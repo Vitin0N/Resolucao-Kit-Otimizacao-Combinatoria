@@ -23,5 +23,9 @@ int main(){
     imprimirSolucao(s);
     std::cout << "Custo total foi de: " << s.custo << std::endl;
 
+    Solucao s2 = pertubacaoDoubleBridge(s);
+
+    imprimirSolucao(s2);
+    
     return 0;
 }

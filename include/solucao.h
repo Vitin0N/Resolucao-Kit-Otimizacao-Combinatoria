@@ -29,15 +29,17 @@ std::vector<int> randomiza3Cidades(int qntCidade);
 
 std::vector<int> cidadesRestantes(std::vector<int> cidadesEscolhidas, int qntCidades);
 
-
 // Função para imprimir a solução no console.
 void imprimirSolucao(Solucao& solucao);
+
+// Função para colocar valores (mockados) a matriz de distâncias, para fins de teste.
+void carregarMatrizDistanciasMOCK();
+
+// ==== Funções de Calculos
 
 // Função para calcular o valor objetivo (custo total) de uma solução.
 void calcularValorObj(Solucao& solucao);
 
-// Função para colocar valores (mockados) a matriz de distâncias, para fins de teste.
-void carregarMatrizDistanciasMOCK();
 
 // Função para calcular a inserção de um nó em uma solução, atualizando o caminho e o custo da solução.
 std::vector<insertionInfo> calcularInsercao(Solucao& solucao, std::vector<int> &CL);
@@ -58,5 +60,10 @@ bool bestImprovementOrOpt(Solucao& s, int k);
 
 // Encontra a melhor posicção local para aquela solução
 void buscaLocal(Solucao& s);
+
+// ===== Funções de Pertubação =====
+
+// Função para pertubar a solução afim de encontrar uma nova vizinhança
+Solucao pertubacaoDoubleBridge(const Solucao &s);
 
 #endif // SOLUCAO_H
