@@ -46,8 +46,13 @@ Solucao Construcao();
 
 // ===== Funções de vizinhança ======
 
-// Visa encontrar o melhor vizinho da solução (com menor custo)
+// Faz o SWAP de duas arestas da sequencia
 bool bestImprovementSwap(Solucao& s);
 
+// Faz o 'desatamento' de nós
+bool bestImprovement2Opt(Solucao& s);
+
+// Faz a reinserção de um bloco com tamanho fixo (k)
+bool bestImprovementOrOpt(Solucao& s, int k);
 
 #endif // SOLUCAO_H

@@ -187,3 +187,44 @@ bool bestImprovementSwap(Solucao& s){
 
     return false; // Se não for encontrado nenhum vizinho melhor
 }
+
+bool bestImprovement2Opt(Solucao& s){
+    double melhorDelta = 0;
+    int melhor_i = -1, melhor_j = -1;
+
+    for(int i = 0; i < (int)s.caminho.size() - 2; i++){
+        int vi = s.caminho[i];
+        int vi_prox = s.caminho[i+1];
+
+        for(int j = i+2; j < (int)s.caminho.size() - 1; j++){
+            int vj = s.caminho[j];
+            int vj_prox = s.caminho[j+1];
+
+            // Calcula se aquela aresta vale a pena ser trocada
+            // Estradas adicionadas - Estradas removidas
+            double novoDelta = matrizDistancias[vi][vj] + matrizDistancias[vi_prox][vj_prox]
+                                -(matrizDistancias[vi][vi_prox] + matrizDistancias[vj][vj_prox]);
+
+            // Se novo delta diminiu o custo, então colocamos os melhores globais como 
+            // os dos casos melhorados
+            if(novoDelta < melhorDelta){
+                melhorDelta = novoDelta;
+                melhor_i = i;
+                melhor_j = j;
+            }
+        }
+    }
+
+    if(melhorDelta < 0){
+        // Ao invés de trocar todo o caminho, apenas invertemos o conjunto que 
+        // foi trocado, assim ele continua seguindo seu proposito
+        std::reverse(s.caminho.begin() + melhor_i + 1, s.caminho.begin() + melhor_j + 1);
+        s.custo += melhorDelta;
+
+        // Se encontrada uma solução melhor retorna true
+        return true;
+    }
+
+    // Se não encontrada solução melhor retorna falso
+    return false;
+}
