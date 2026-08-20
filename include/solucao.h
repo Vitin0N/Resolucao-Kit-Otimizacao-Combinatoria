@@ -47,7 +47,7 @@ Solucao Construcao();
 // ===== Funções de vizinhança ======
 
 // Visa encontrar o melhor vizinho da solução (com menor custo)
-bool bestImprovmentSwap(Solucao& s);
+bool bestImprovementSwap(Solucao& s);
 
 
 #endif // SOLUCAO_H

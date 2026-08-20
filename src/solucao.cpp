@@ -130,7 +130,7 @@ Solucao Construcao(){
 
 // ==== Funções de vinzinhaça ====
 
-bool bestImprovmentSwap(Solucao& s){
+bool bestImprovementSwap(Solucao& s){
     double melhorDelta = 0;
     int melhor_i = -1, melhor_j = -1;
 
