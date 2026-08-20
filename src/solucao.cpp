@@ -175,9 +175,6 @@ bool bestImprovementSwap(Solucao& s){
 
     // Se o vizinho for melhor que o atual trocamos com o que já temos
     if(melhorDelta < 0){
-
-        std::cout << "Delta eh de: " << melhorDelta << std::endl;
-
         std::swap(s.caminho[melhor_i], s.caminho[melhor_j]);
         s.custo = s.custo + melhorDelta; // Soma com delta negativo, assim tendo o custo do melhor vizinho.
         
@@ -226,5 +223,89 @@ bool bestImprovement2Opt(Solucao& s){
     }
 
     // Se não encontrada solução melhor retorna falso
+    return false;
+}
+
+bool bestImprovementOrOpt(Solucao& s, int k){
+    if (k < 1){
+        throw std::invalid_argument("k deve ser maior ou igual a 1!");
+    }
+
+    if(k >= (int)s.caminho.size() - 2){
+        throw std::invalid_argument("k deve ser menor que o tamanho do caminho!");
+    }
+
+    double melhorDelta = 0;
+    int melhor_i = -1, melhor_j = -1;
+
+    for(int i = 1; i + k < (int)s.caminho.size() - 1; i++){
+        // Pega os valores do começo do bloco
+        int vi = s.caminho[i];
+        int vi_ant = s.caminho[i-1];
+
+        // Pega o valor do final do bloco
+        int vk = s.caminho[i+k-1];
+        int vk_prox = s.caminho[i+k];
+
+        // Verifica as posições a frente do bloco
+        for(int j = i + k; j < (int)s.caminho.size() - 1; j++){
+            int vj = s.caminho[j];
+            int vj_prox = s.caminho[j+1];
+
+            // Estradas novas - Estradas removidas
+            double novoDelta = (matrizDistancias[vj][vi] + matrizDistancias[vk][vj_prox] + matrizDistancias[vi_ant][vk_prox])
+                             - (matrizDistancias[vi_ant][vi] + matrizDistancias[vk][vk_prox] + matrizDistancias[vj][vj_prox]);
+                        
+            if(novoDelta < melhorDelta){
+                melhorDelta = novoDelta;
+                melhor_i = i;
+                melhor_j = j;
+            }
+        }
+
+        // Verifica atrás do bloco
+        for(int j = 0; j < i-1; j++){
+            int vj = s.caminho[j];
+            int vj_prox = s.caminho[j+1];
+
+            // Estradas novas - Estradas removidas
+            double novoDelta = (matrizDistancias[vj][vi] + matrizDistancias[vk][vj_prox] + matrizDistancias[vi_ant][vk_prox])
+                             - (matrizDistancias[vi_ant][vi] + matrizDistancias[vk][vk_prox] + matrizDistancias[vj][vj_prox]);
+                        
+            if(novoDelta < melhorDelta){
+                melhorDelta = novoDelta;
+                melhor_i = i;
+                melhor_j = j;
+            }
+        }
+    }
+    
+    if(melhorDelta < 0){
+        // Aloca um vetor para o bloco a ser inserido
+        std::vector<int> blocoInserido(s.caminho.begin() + melhor_i, s.caminho.begin() + melhor_i + k);
+
+        // Apaga o bloco da memoria
+        s.caminho.erase(s.caminho.begin() + melhor_i, s.caminho.begin() + melhor_i + k);
+
+        // Recalcua o melhor_j com a retirada das arestas
+        if(melhor_j > melhor_i){
+            melhor_j -= k; 
+        }
+
+        // Insere as novas arestas 
+        s.caminho.insert(
+            s.caminho.begin() + melhor_j + 1, 
+            blocoInserido.begin(), 
+            blocoInserido.end()
+        );
+
+        // Recalcula o custo
+        s.custo += melhorDelta;
+
+        // Retorna true caso encontrou um caminho melhor
+        return true;
+    }
+
+    // Retorna false caso não conseguiu um caminho melhor
     return false;
 }

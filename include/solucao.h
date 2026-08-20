@@ -6,6 +6,7 @@
 #include <random>
 #include <cstdlib>
 #include <algorithm>
+#include <stdexcept>
 
 extern std::vector<std::vector<double>> matrizDistancias; // Matriz de distâncias entre os pontos do TSP
 
