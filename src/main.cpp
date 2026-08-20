@@ -16,13 +16,12 @@ int main(){
     calcularValorObj(s);
 
     imprimirSolucao(s);
-
     std::cout << "Custo total (original) foi de: " << s.custo << std::endl;
     
-    while(bestImprovementOrOpt(s, 2)){
-        imprimirSolucao(s);
-        std::cout << "Custo total foi de: " << s.custo << std::endl;
-    }
+    buscaLocal(s);
+
+    imprimirSolucao(s);
+    std::cout << "Custo total foi de: " << s.custo << std::endl;
 
     return 0;
 }

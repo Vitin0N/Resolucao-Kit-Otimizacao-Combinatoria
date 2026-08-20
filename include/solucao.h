@@ -56,4 +56,7 @@ bool bestImprovement2Opt(Solucao& s);
 // Faz a reinserção de um bloco com tamanho fixo (k)
 bool bestImprovementOrOpt(Solucao& s, int k);
 
+// Encontra a melhor posicção local para aquela solução
+void buscaLocal(Solucao& s);
+
 #endif // SOLUCAO_H

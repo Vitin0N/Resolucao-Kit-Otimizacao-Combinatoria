@@ -309,3 +309,35 @@ bool bestImprovementOrOpt(Solucao& s, int k){
     // Retorna false caso não conseguiu um caminho melhor
     return false;
 }
+
+void buscaLocal(Solucao& s){
+    std::vector<int> NL = {1, 2, 3, 4, 5};
+    bool melhorou = false;
+
+    while(!NL.empty()){
+        int n = rand() % NL.size();
+        switch (NL[n]){
+            case 1:
+                melhorou = bestImprovementSwap(s);
+                break;
+            case 2:
+                melhorou = bestImprovement2Opt(s);
+                break;
+            case 3:
+                melhorou = bestImprovementOrOpt(s, 1);
+                break;
+                case 4:
+                melhorou = bestImprovementOrOpt(s, 2);  
+                break;
+            case 5:
+               melhorou = bestImprovementOrOpt(s, 3);
+               break;
+        }
+
+        if(melhorou){
+            NL = {1,2,3,4,5};
+        } else {
+            NL.erase(NL.begin() + n);
+        }
+    }
+}
