@@ -112,7 +112,7 @@ Solucao Construcao(){
 
         // Alpha para selecionar aleatoriamente um dos primeiros pares
         double alpha = static_cast<double>(rand()) / RAND_MAX;
-        int cidadeSorteada = rand() % ((int) ceil(alpha * custoInsercao.size()));
+        int cidadeSorteada = rand() % std::max(1, ((int) ceil(alpha * custoInsercao.size())));
 
         // Insere a cidade escolhida
         insertionInfo escolhida = custoInsercao[cidadeSorteada];
