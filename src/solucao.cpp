@@ -28,10 +28,12 @@ std::vector<int> randomiza3Cidades(int qntCidade){
     return cidades;
 }
 
+// Verifica as cidades restantes com base nas escolhidas
 std::vector<int> cidadesRestantes(std::vector<int> cidadesEscolhidas, int qntCidades){
     std::vector<int> cidadesRestantes;
 
     for(int i = 1; i <= qntCidades; i++){
+        // Verifica se a cidade já foi escolhida
         if(std::find(cidadesEscolhidas.begin(), cidadesEscolhidas.end(), i) == cidadesEscolhidas.end()){
             cidadesRestantes.push_back(i);
         }
@@ -75,10 +77,12 @@ std::vector<insertionInfo> calcularInsercao(Solucao& solucao, std::vector<int> &
     std::vector<insertionInfo> custoInsercao((solucao.caminho.size() - 1) * CL.size());
 
     int l = 0;
+    // Passa por todas as soluções possiveis
     for(int i = 0; i < (int)solucao.caminho.size() - 1; i++){
         int cidadeRemetente = solucao.caminho[i];
         int cidadeDestino = solucao.caminho[i+1];
         for(auto k : CL){
+            // Adiciona o custo ao array de informação
             custoInsercao[l].custo = matrizDistancias[cidadeDestino][k] + matrizDistancias[cidadeRemetente][k] - matrizDistancias[cidadeDestino][cidadeRemetente];
             custoInsercao[l].noInserido = k;
             custoInsercao[l].arestaRemovida = i;
@@ -90,28 +94,32 @@ std::vector<insertionInfo> calcularInsercao(Solucao& solucao, std::vector<int> &
 }
 
 Solucao Construcao(){
-    Solucao s;
+    Solucao s; // Inicia uma solução
+
+    // Randomiza 3 cidades iniciais
     s.caminho = randomiza3Cidades(6);
 
+    // Adiciona a lista de candidatos as cidades restantes
     std::vector<int> CL = cidadesRestantes(s.caminho, 6);
 
     while(!CL.empty()){
         std::vector<insertionInfo> custoInsercao = calcularInsercao(s, CL);
 
-        // Ordena o custo de inserção
+        // Ordena o custo de inserção com base no custo
         std::sort(custoInsercao.begin(), custoInsercao.end(), [](const insertionInfo& a, const insertionInfo& b) {
             return a.custo < b.custo;
         });
 
+        // Alpha para selecionar aleatoriamente um dos primeiros pares
         double alpha = static_cast<double>(rand()) / RAND_MAX;
         int cidadeSorteada = rand() % ((int) ceil(alpha * custoInsercao.size()));
 
+        // Insere a cidade escolhida
         insertionInfo escolhida = custoInsercao[cidadeSorteada];
         s.caminho.insert(s.caminho.begin() + escolhida.arestaRemovida + 1, escolhida.noInserido);
 
         // Apaga a cidade escolhida
         auto it = std::find(CL.begin(), CL.end(), escolhida.noInserido);
-
         if(it != CL.end()){
             CL.erase(it);
         }
