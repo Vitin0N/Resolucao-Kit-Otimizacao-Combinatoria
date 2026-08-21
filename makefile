@@ -24,8 +24,8 @@ endif
 
 all: $(TARGET)
 
-$(TARGET): src/main.cpp src/solucao.cpp
-	$(CXX) $(CXXFLAGS) src/main.cpp src/solucao.cpp -o $(TARGET)
+$(TARGET): src/main.cpp src/solucao.cpp src/data.cpp
+	$(CXX) $(CXXFLAGS) src/main.cpp src/solucao.cpp src/data.cpp -o $(TARGET)
 
 clean:
 	$(RM) $(TARGET)

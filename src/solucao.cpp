@@ -8,6 +8,7 @@ Aqui vai ficar a implementação da solução que eu vou contruir para o problem
 
 std::vector<std::vector<double>> matrizDistancias; // Definindo a matrizDistancia
 int matrizDimensao; // Definindo a dimensão da matriz
+int dimensao;
 
 // ==== Funções Auxiliares ====
 std::vector<int> randomiza3Cidades(int qntCidade){

@@ -6,22 +6,22 @@ Servindo como ponto de entrada de dados e chamada dos metodos que vão resolver 
 */ 
 
 #include "solucao.h"
+#include "data.h"
 
 int main(){
 
-    carregarMatrizDistanciasMOCK();
+    lerInstancias("instancias/berlin52.tsp");
 
     Solucao s = Construcao();
-
     calcularValorObj(s);
 
     imprimirSolucao(s);
     std::cout << "Custo total (original) foi de: " << s.custo << std::endl;
 
     s = ILS(s, 5, 5);
-
-    imprimirSolucao(s);
-    std::cout << "Custo total foi de: " << s.custo << std::endl;
     
+    imprimirSolucao(s);
+    std::cout << "Custo total (original) foi de: " << s.custo << std::endl;
+
     return 0;
 }
