@@ -9,6 +9,7 @@
 #include <stdexcept>
 
 extern std::vector<std::vector<double>> matrizDistancias; // Matriz de distâncias entre os pontos do TSP
+extern int matrizDimensao; // Dimensão da matriz distancia
 
 // Estrutra de uma solução, contendo o caminho percorrido e o custo associado a esse caminho.  
 struct Solucao {
@@ -65,5 +66,9 @@ void buscaLocal(Solucao& s);
 
 // Função para pertubar a solução afim de encontrar uma nova vizinhança
 Solucao pertubacaoDoubleBridge(const Solucao &s);
+
+// ==== Função para gerar a solução final ====
+
+Solucao ILS(const Solucao& s, int maxIter, int maxIterILS);
 
 #endif // SOLUCAO_H

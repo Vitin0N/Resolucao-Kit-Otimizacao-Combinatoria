@@ -7,6 +7,7 @@ Aqui vai ficar a implementação da solução que eu vou contruir para o problem
 #include "solucao.h"
 
 std::vector<std::vector<double>> matrizDistancias; // Definindo a matrizDistancia
+int matrizDimensao; // Definindo a dimensão da matriz
 
 // ==== Funções Auxiliares ====
 std::vector<int> randomiza3Cidades(int qntCidade){
@@ -71,6 +72,8 @@ void carregarMatrizDistanciasMOCK(){
         {0,  59, 186, 169, 105,   0,  87}, // Cidade 5
         {0, 129, 147, 114, 185,  87,   0}  // Cidade 6
     };
+
+    matrizDimensao = 6;
 }
 
 std::vector<insertionInfo> calcularInsercao(Solucao& solucao, std::vector<int> &CL){
@@ -97,10 +100,10 @@ Solucao Construcao(){
     Solucao s; // Inicia uma solução
 
     // Randomiza 3 cidades iniciais
-    s.caminho = randomiza3Cidades(6);
+    s.caminho = randomiza3Cidades(matrizDimensao);
 
     // Adiciona a lista de candidatos as cidades restantes
-    std::vector<int> CL = cidadesRestantes(s.caminho, 6);
+    std::vector<int> CL = cidadesRestantes(s.caminho, matrizDimensao);
 
     while(!CL.empty()){
         std::vector<insertionInfo> custoInsercao = calcularInsercao(s, CL);
@@ -404,4 +407,37 @@ Solucao pertubacaoDoubleBridge(const Solucao& solucao){
     calcularValorObj(s);
 
     return s;
+}
+
+// ==== Função para gerar a solução final ====
+
+Solucao ILS(const Solucao& s, int maxIter, int maxIterILS){
+    Solucao melhorSolucao;
+    melhorSolucao.custo = INFINITY;
+
+    for(int i = 0; i < maxIter; i++){
+        Solucao sol = s;
+        Solucao melhor_s = sol;
+
+        int iterIls = 0;
+
+        while(iterIls < maxIterILS){
+            buscaLocal(sol);
+
+            if(sol.custo < melhor_s.custo){
+                melhor_s = sol;
+                iterIls = 0;
+            }
+
+            sol = pertubacaoDoubleBridge(melhor_s);
+
+            iterIls++;
+        }
+
+        if(melhor_s.custo < melhorSolucao.custo){
+            melhorSolucao = melhor_s;
+        }
+    }
+
+    return melhorSolucao;
 }

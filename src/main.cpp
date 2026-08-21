@@ -17,15 +17,11 @@ int main(){
 
     imprimirSolucao(s);
     std::cout << "Custo total (original) foi de: " << s.custo << std::endl;
-    
-    buscaLocal(s);
+
+    s = ILS(s, 5, 5);
 
     imprimirSolucao(s);
     std::cout << "Custo total foi de: " << s.custo << std::endl;
-
-    Solucao s2 = pertubacaoDoubleBridge(s);
-
-    imprimirSolucao(s2);
     
     return 0;
 }
