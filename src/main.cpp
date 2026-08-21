@@ -10,7 +10,9 @@ Servindo como ponto de entrada de dados e chamada dos metodos que vão resolver 
 
 int main(){
 
-    lerInstancias("instancias/berlin52.tsp");
+    std::string caminhoTsp = "instancias/cristino2.tsp";
+
+    lerInstancias(caminhoTsp);
 
     Solucao s = Construcao();
     calcularValorObj(s);
@@ -22,6 +24,8 @@ int main(){
     
     imprimirSolucao(s);
     std::cout << "Custo total (original) foi de: " << s.custo << std::endl;
+
+    criarTour(s, "critino.tour");
 
     return 0;
 }

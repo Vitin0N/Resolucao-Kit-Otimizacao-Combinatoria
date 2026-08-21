@@ -7,6 +7,8 @@
 #include <cstdlib>
 #include <algorithm>
 #include <stdexcept>
+#include <fstream>
+#include <string>
 
 extern std::vector<std::vector<double>> matrizDistancias; // Matriz de distâncias entre os pontos do TSP
 extern int matrizDimensao; // Dimensão da matriz distancia
@@ -70,5 +72,8 @@ Solucao pertubacaoDoubleBridge(const Solucao &s);
 // ==== Função para gerar a solução final ====
 
 Solucao ILS(const Solucao& s, int maxIter, int maxIterILS);
+
+// Cria um arquivo com o caminho gerado pela solução
+void criarTour(const Solucao& s, std::string tour_name);
 
 #endif // SOLUCAO_H

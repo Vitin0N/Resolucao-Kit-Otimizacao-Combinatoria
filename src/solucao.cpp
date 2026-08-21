@@ -315,7 +315,7 @@ bool bestImprovementOrOpt(Solucao& s, int k){
 }
 
 void buscaLocal(Solucao& s){
-    std::vector<int> NL = {1, 2, 3, 4, 5};
+    std::vector<int> NL = {2};
     bool melhorou = false;
 
     while(!NL.empty()){
@@ -339,7 +339,7 @@ void buscaLocal(Solucao& s){
         }
 
         if(melhorou){
-            NL = {1,2,3,4,5};
+            NL = {2};
         } else {
             NL.erase(NL.begin() + n);
         }
@@ -441,4 +441,30 @@ Solucao ILS(const Solucao& s, int maxIter, int maxIterILS){
     }
 
     return melhorSolucao;
+}
+
+void criarTour(const Solucao& s, std::string tour_name){
+    std::ofstream arquivo(tour_name);
+
+    size_t pos = tour_name.find(".tour");
+    std::string nome = tour_name.substr(0, pos);
+
+    if(!arquivo){
+        std::cerr << "Erro ao abrir arquivo" << tour_name << std::endl;
+        return;
+    }
+
+    arquivo << "NAME: " << nome << "\n";
+    arquivo << "TYPE: TOUR\n";
+    arquivo << "DIMENSION:" << dimensao << "\n";
+    arquivo << "TOUR_SECTION\n";
+
+    for(int cidade : s.caminho){
+        arquivo << cidade << '\n';
+    }
+
+    arquivo << "-1\n";
+    arquivo << "EOF\n";
+
+    arquivo.close();
 }
