@@ -10,11 +10,30 @@ void lerInstancias(const std::string& caminhoArquivo){
     }
 
     std::string palavra;
+    std::string linha;
 
     // Busca primeiro a dimensão do problema
-    while(arquivo >> palavra){
-        if(palavra == "DIMENSION:" || palavra == "DIMENSION"){
-            arquivo >> dimensao; // Passa o valor da dimensão do problema
+    while(std::getline(arquivo, linha)){
+        if(linha.find("DIMENSION") != std::string::npos){
+            std::stringstream ss(linha);
+
+            ss >> palavra;
+
+            // Remove o ':' caso esteja na linha
+            if(!palavra.empty() && palavra.back() == ':'){
+                palavra.pop_back();
+            }
+
+            while(ss >> palavra){
+                try {
+                    dimensao = std::stoi(palavra);
+                    break;
+                }
+                catch (...){
+                    // Número não encontrado, continua procurando
+                }
+            }
+
             break;
         }
     }

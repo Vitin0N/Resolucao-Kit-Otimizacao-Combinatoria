@@ -6,6 +6,8 @@
 #include <fstream>
 #include <math.h>
 #include <memory>
+#include <sstream>
+
 #include "solucao.h"
 
 // Função princial para ler as instâncias dadas
