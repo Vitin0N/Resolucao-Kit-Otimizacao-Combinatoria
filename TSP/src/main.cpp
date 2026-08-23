@@ -20,10 +20,10 @@ int main(){
     imprimirSolucao(s);
     std::cout << "Custo total (original) foi de: " << s.custo << std::endl;
 
-    s = ILS(s, 5, 5);
+    s = ILS(s, 50, 50);
     
     imprimirSolucao(s);
-    std::cout << "Custo total (original) foi de: " << s.custo << std::endl;
+    std::cout << "Custo total foi de: " << s.custo << std::endl;
 
     criarTour(s, "critino.tour");
 

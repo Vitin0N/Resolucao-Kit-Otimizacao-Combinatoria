@@ -74,6 +74,4 @@ void lerInstancias(const std::string& caminhoArquivo){
     arquivo.close();
 
     std::cout << "Instância carregada com sucesso! Dimensão: " << dimensao << std::endl;
-
-
 }

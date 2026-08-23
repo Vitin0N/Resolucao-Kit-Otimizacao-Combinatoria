@@ -315,7 +315,7 @@ bool bestImprovementOrOpt(Solucao& s, int k){
 }
 
 void buscaLocal(Solucao& s){
-    std::vector<int> NL = {2};
+    std::vector<int> NL = {1, 2, 3, 4, 5};
     bool melhorou = false;
 
     while(!NL.empty()){
@@ -339,7 +339,7 @@ void buscaLocal(Solucao& s){
         }
 
         if(melhorou){
-            NL = {2};
+            NL = {1,2,3,4,5};
         } else {
             NL.erase(NL.begin() + n);
         }
