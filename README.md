@@ -28,4 +28,4 @@ A implementação principal contém:
 - Meta-heurística ILS.
 - Geração de arquivos `.tour`.
 
-Mais detalhes estão disponíveis em [TSP/README.md](TSP/README.md).
+Mais detalhes estão disponíveis em [TSP/](TSP/).
