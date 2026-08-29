@@ -81,6 +81,9 @@ custos = []
 inicio = time.perf_counter()
 
 for instancia in RESULTADO_ORIGINAIS:
+    if instancia['nome'] != 'instancias/att48':
+        continue
+
     file_name = f"{instancia["nome"]}.tsp"
 
     # Roda apenas as instâncias que tem menos de 15 segundos no resultado do benchmark
@@ -110,10 +113,11 @@ for instancia in RESULTADO_ORIGINAIS:
 
     dado = [nome, tempo_media, custo_media]
 
-    with open("resultados_obtidos.csv", "a") as fp:
+    with open("data/resultados_obtidos.csv", "a") as fp:
         writer = csv.writer(fp)
         writer.writerow(dado)
 
+    break
     tempos = []
     custos = []
 

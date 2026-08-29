@@ -271,7 +271,7 @@ void lerInstancias(const std::string& caminhoArquivo){
                       << ewfFormat << std::endl;
             return;
         }
-    } else if(ewfTipo == "CEIL_2D"){
+    } else if(ewfTipo == "ATT"){
         // Le as coordenadas
         std::vector<double> coordX(dimensao + 1);
         std::vector<double> coordY(dimensao + 1);
@@ -279,24 +279,35 @@ void lerInstancias(const std::string& caminhoArquivo){
 
         // Busca a seção das coordenadas
         while(arquivo >> palavra){
-            if(palavra == "NODE_COORD_SECTION:" || palavra ==  "NODE_COORD_SECTION"){
+            if(palavra == "NODE_COORD_SECTION:" || palavra == "NODE_COORD_SECTION"){
                 break;
             }
         }
 
         // Preenche os vetores das coordenadas
-        for(int i = 1; i <=  dimensao; i++){
+        for(int i = 1; i <= dimensao; i++){
             arquivo >> id >> coordX[i] >> coordY[i];
         }
     
-        // Preenchendo a matriz com as distâncias euclidianas
+        // Preenchendo a matriz com a fórmula pseudo-euclidiana (ATT) da TSPLIB
         for(int i = 1; i <= dimensao; i++){
             for(int j = 1; j <= dimensao; j++){
                 if(i != j){
                     double deltaX = coordX[i] - coordX[j];
                     double deltaY = coordY[i] - coordY[j];
                     
-                    matrizDistancias[i][j] = std::ceil(std::sqrt(deltaX * deltaX + deltaY * deltaY));
+                    // A regra da TSPLIB exige dividir por 10 antes da raiz
+                    double rij = std::sqrt((deltaX * deltaX + deltaY * deltaY) / 10.0);
+                    
+                    // O arredondamento (nint) oficial do C/C++ para TSPLIB
+                    int tij = (int) (rij + 0.5);
+                    
+                    if (tij < rij) {
+                        matrizDistancias[i][j] = tij + 1;
+                    } else {
+                        matrizDistancias[i][j] = tij;
+                    }
+                    
                     matrizDistancias[j][i] = matrizDistancias[i][j];
                 } else {
                     matrizDistancias[i][j] = 0;
